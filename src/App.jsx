@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { GridContainer } from './AppStyles';
 
 function App() {
-    const fieldsQuantity = 4;
     const [currentPosition, setCurrentPosition] = useState(0);
-    const [template, setTemplate] = useState({});
+    const [template, setTemplate] = useState('');
     const [data, setData] = useState([
         {
             id: '1',
@@ -22,12 +21,30 @@ function App() {
         // Move to the next item in array to progress linear path
     }
 
+    function handleGoBack(steps) {
+        setCurrentPosition(currentPosition - steps);
+    }
+
+    function handleChange(e) {
+        setTemplate(e.target.value);
+    }
+
     function computeClass(className, index) {
         return String(`${className}-${index + 1}`);
     }
 
     return (
         <div>
+            {currentPosition > 0 && (
+                <div>
+                    <button onClick={() => handleGoBack(currentPosition)}>
+                        &lt;&lt; Go Back to Start
+                    </button>
+                    <button onClick={() => handleGoBack(1)}>
+                        &lt; Back One Step
+                    </button>
+                </div>
+            )}
             {data &&
                 data.map(
                     ({ id, text, fields }, index) =>
@@ -56,7 +73,12 @@ function App() {
                                             )}
                                             key={field + index}
                                         >
-                                            <input type="text" />
+                                            <input
+                                                onChange={(e, index) =>
+                                                    handleChange(e, index)
+                                                }
+                                                type="text"
+                                            />
                                             <button>Submit</button>
                                         </div>
                                     );
