@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GridContainer } from './AppStyles';
 
 function App() {
-    const [currentPosition, setCurrentPosition] = useState(0);
-    const [template, setTemplate] = useState('');
+    const [currentPosition, setCurrentPosition] = useState(1);
+    const [currentData, setCurrentData] = useState({});
+    const [newFields, setNewFields] = useState(['', '', '', '']);
+    const [fields, setFields] = useState(['', '', '', '']);
     const [data, setData] = useState([
         {
             id: '1',
@@ -12,21 +14,51 @@ function App() {
         },
     ]);
 
-    function handleSubmit(index, field) {
-        // Add the field to the correct index in fields array (Set?)
+    useEffect(() => {
+        setCurrentData(data[0]);
+    }, []);
+
+    function handleSubmit(e, index) {
+        e.preventDefault();
+        const value = fields[index];
+        setNewFields((prevItems) => [
+            ...prevItems.slice(0, index),
+            value,
+            ...prevItems.slice(index + 1),
+        ]);
+        setCurrentData((prev) => {
+            return {
+                id: prev.id,
+                text: prev.text,
+                fields: newFields,
+            };
+        });
     }
 
     function handleTextClick(text) {
         // Add the text to the text property in template
         // Move to the next item in array to progress linear path
+        // setData((prev) => (prev.fields[index] = e.target.value));
+        //   handleAddFeature = () => {
+        //       const car = this.state.car;
+        //       car.features.push('Your feature');
+        //       this.setState({ car });
+        //   };
+        // setCurrentData((prev, index) => {
+        //     return (prev.fields[index] = e.target.value);
+        // });
     }
 
     function handleGoBack(steps) {
         setCurrentPosition(currentPosition - steps);
     }
 
-    function handleChange(e) {
-        setTemplate(e.target.value);
+    function handleChange(e, index) {
+        setFields((prevItems) => [
+            ...prevItems.slice(0, index),
+            e.target.value,
+            ...prevItems.slice(index + 1),
+        ]);
     }
 
     function computeClass(className, index) {
@@ -35,7 +67,7 @@ function App() {
 
     return (
         <div>
-            {currentPosition > 0 && (
+            {currentPosition > 1 && (
                 <div>
                     <button onClick={() => handleGoBack(currentPosition)}>
                         &lt;&lt; Go Back to Start
@@ -45,47 +77,32 @@ function App() {
                     </button>
                 </div>
             )}
-            {data &&
-                data.map(
-                    ({ id, text, fields }, index) =>
-                        index === currentPosition && (
-                            <GridContainer key={id}>
-                                <div className="cell-0">{text}</div>
-                                {fields.map((field, index) => {
-                                    if (field) {
-                                        return (
-                                            <div
-                                                className={computeClass(
-                                                    'cell',
-                                                    index,
-                                                )}
-                                                key={field + index}
-                                            >
-                                                <a href="#">{field}</a>
-                                            </div>
-                                        );
-                                    }
-                                    return (
-                                        <div
-                                            className={computeClass(
-                                                'cell',
-                                                index,
-                                            )}
-                                            key={field + index}
-                                        >
-                                            <input
-                                                onChange={(e, index) =>
-                                                    handleChange(e, index)
-                                                }
-                                                type="text"
-                                            />
-                                            <button>Submit</button>
-                                        </div>
-                                    );
-                                })}
-                            </GridContainer>
-                        ),
-                )}
+            <GridContainer>
+                <div className="cell-0">{currentData.text}</div>
+
+                {currentData.fields &&
+                    currentData.fields.map((field, index) => {
+                        if (field) {
+                            return (
+                                <div className={computeClass('cell', index)}>
+                                    <a href="#">{field}</a>
+                                </div>
+                            );
+                        }
+                        return (
+                            <div className={computeClass('cell', index)}>
+                                <form onSubmit={(e) => handleSubmit(e, index)}>
+                                    <input
+                                        onChange={(e) => handleChange(e, index)}
+                                        type="text"
+                                        value={fields[index]}
+                                    />
+                                    <button>Submit</button>
+                                </form>
+                            </div>
+                        );
+                    })}
+            </GridContainer>
         </div>
     );
 }
