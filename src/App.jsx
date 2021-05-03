@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { GridContainer } from './AppStyles';
 
 function App() {
-    const [currentPosition, setCurrentPosition] = useState(1);
+    const [currentPosition, setCurrentPosition] = useState(0);
     const [currentData, setCurrentData] = useState({});
     const [newFields, setNewFields] = useState(['', '', '', '']);
     const [fields, setFields] = useState(['', '', '', '']);
@@ -15,7 +15,7 @@ function App() {
     ]);
 
     useEffect(() => {
-        setCurrentData(data[0]);
+        setCurrentData(data[currentPosition]);
     }, []);
 
     useEffect(() => {
@@ -70,7 +70,7 @@ function App() {
 
     return (
         <div>
-            {currentPosition > 1 && (
+            {currentPosition > 0 && (
                 <div>
                     <button onClick={() => handleGoBack(currentPosition)}>
                         &lt;&lt; Go Back to Start
