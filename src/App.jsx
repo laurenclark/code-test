@@ -18,6 +18,16 @@ function App() {
         setCurrentData(data[0]);
     }, []);
 
+    useEffect(() => {
+        setCurrentData((prev) => {
+            return {
+                id: prev.id,
+                text: prev.text,
+                fields: newFields,
+            };
+        });
+    }, [newFields]);
+
     function handleSubmit(e, index) {
         e.preventDefault();
         const value = fields[index];
@@ -26,13 +36,6 @@ function App() {
             value,
             ...prevItems.slice(index + 1),
         ]);
-        setCurrentData((prev) => {
-            return {
-                id: prev.id,
-                text: prev.text,
-                fields: newFields,
-            };
-        });
     }
 
     function handleTextClick(text) {
