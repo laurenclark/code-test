@@ -4,11 +4,17 @@ const GridContainer = styled.div`
     @media (min-width: 769px) {
         display: grid;
         grid-template-rows: 2fr 1fr 2fr;
-        grid-gap: 2rem;
+        grid-row-gap: 5rem;
         max-width: 800px;
         margin: auto;
         place-content: center;
         place-items: center;
+        div {
+            width: 300px;
+            display: grid;
+            place-content: center;
+            place-items: center;
+        }
         .cell-0 {
             grid-column: 2;
             grid-row: 2;
