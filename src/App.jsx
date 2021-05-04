@@ -2,21 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { GridContainer } from './AppStyles';
 
 function App() {
+    const arrayTemplate = ['', '', '', ''];
     const [currentPosition, setCurrentPosition] = useState(0);
     const [currentData, setCurrentData] = useState({});
-    const [newFields, setNewFields] = useState(['', '', '', '']);
-    const [fields, setFields] = useState(['', '', '', '']);
+    const [newFields, setNewFields] = useState(arrayTemplate);
+    const [fields, setFields] = useState(arrayTemplate);
     const [data, setData] = useState([
         {
-            id: '1',
+            id: 0,
             text: 'There once was a big bad wolf',
-            fields: ['', '', '', ''],
+            fields: arrayTemplate,
         },
     ]);
 
     useEffect(() => {
         setCurrentData(data[currentPosition]);
-    }, []);
+        setNewFields(arrayTemplate);
+    }, [currentPosition]);
 
     useEffect(() => {
         setCurrentData((prev) => {
@@ -38,18 +40,16 @@ function App() {
         ]);
     }
 
-    function handleTextClick(text) {
-        // Add the text to the text property in template
-        // Move to the next item in array to progress linear path
-        // setData((prev) => (prev.fields[index] = e.target.value));
-        //   handleAddFeature = () => {
-        //       const car = this.state.car;
-        //       car.features.push('Your feature');
-        //       this.setState({ car });
-        //   };
-        // setCurrentData((prev, index) => {
-        //     return (prev.fields[index] = e.target.value);
-        // });
+    function handleTextClick(index) {
+        const newObj = {
+            id: currentPosition + 1,
+            text: fields[index],
+            fields: arrayTemplate,
+        };
+        setData((data[currentPosition].fields = fields));
+        setData(data.concat(newObj));
+        setCurrentPosition(currentPosition + 1);
+        setFields(arrayTemplate);
     }
 
     function handleGoBack(steps) {
@@ -80,15 +80,20 @@ function App() {
                     </button>
                 </div>
             )}
+
             <GridContainer>
                 <div className="cell-0">{currentData.text}</div>
-
                 {currentData.fields &&
                     currentData.fields.map((field, index) => {
-                        if (field) {
+                        if (field !== '') {
                             return (
                                 <div className={computeClass('cell', index)}>
-                                    <a href="#">{field}</a>
+                                    <a
+                                        onClick={() => handleTextClick(index)}
+                                        href="#"
+                                    >
+                                        {field}
+                                    </a>
                                 </div>
                             );
                         }
