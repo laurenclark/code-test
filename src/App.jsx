@@ -39,15 +39,23 @@ function App() {
             value,
             ...prevItems.slice(index + 1),
         ]);
+        setData((prevItems) => [
+            ...prevItems.slice(0, currentPosition),
+            {
+                id: currentPosition,
+                text: currentData.text,
+                fields: fields,
+            },
+            ...prevItems.slice(currentPosition + 1),
+        ]);
     }
 
     function handleTextClick(index) {
         const newObj = {
             id: currentPosition + 1,
             text: fields[index],
-            fields: currentData.fields,
+            fields: arrayTemplate,
         };
-        setData((data[currentPosition].fields = fields));
         setData(data.concat(newObj));
         setCurrentPosition(currentPosition + 1);
         setFields(arrayTemplate);
