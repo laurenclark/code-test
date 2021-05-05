@@ -18,6 +18,7 @@ function App() {
     useEffect(() => {
         setCurrentData(data[currentPosition]);
         setNewFields(arrayTemplate);
+        removeDeadPath(currentPosition, data);
     }, [currentPosition]);
 
     useEffect(() => {
@@ -44,7 +45,7 @@ function App() {
         const newObj = {
             id: currentPosition + 1,
             text: fields[index],
-            fields: arrayTemplate,
+            fields: currentData.fields,
         };
         setData((data[currentPosition].fields = fields));
         setData(data.concat(newObj));
@@ -62,6 +63,13 @@ function App() {
             e.target.value,
             ...prevItems.slice(index + 1),
         ]);
+    }
+
+    function removeDeadPath(currentPosition, data) {
+        if (data.length > currentPosition) {
+            const remainder = currentPosition % data.length;
+            setData((prev) => prev.slice(-(remainder + 1)));
+        }
     }
 
     function computeClass(className, index) {
