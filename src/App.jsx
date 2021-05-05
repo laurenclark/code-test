@@ -11,7 +11,6 @@ function App() {
         {
             id: 0,
             text: 'There once was a big bad wolf',
-            fields: arrayTemplate,
         },
     ]);
 
