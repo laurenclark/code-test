@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GridContainer } from './AppStyles';
 
 function App() {
@@ -29,8 +29,19 @@ function App() {
         choices: choiceTemplate,
     });
 
+    useEffect(() => {
+        removeDeadPath(currentPosition, allRecords);
+    }, [currentPosition]);
+
     function computeClass(className, index) {
         return String(`${className}-${index + 1}`);
+    }
+
+    function removeDeadPath(position, records) {
+        if (records.length > position) {
+            const remainder = position % records.length;
+            setAllRecords((prev) => prev.slice(-remainder));
+        }
     }
 
     function handleChange(e) {
@@ -66,14 +77,14 @@ function App() {
         });
     }
 
-    function handleTextClick(text) {
+    function handleTextClick(entry) {
+        setCurrentPosition(currentPosition + 1);
         setData({
-            id: Number(allRecords.length + 1),
-            text,
+            id: Number(currentPosition),
+            text: entry,
             choices: choiceTemplate,
         });
         setAllRecords([...allRecords, data]);
-        setCurrentPosition(currentPosition + 1);
     }
 
     function handleGoBack(steps) {
@@ -82,12 +93,15 @@ function App() {
         setCurrentPosition(currentPosition - steps);
     }
 
+    function backToStart() {
+        setData(allRecords.find((record) => record.id === 0));
+        setCurrentPosition(0);
+    }
+
     return (
         <>
             <div hidden={currentPosition === 0}>
-                <button onClick={() => handleGoBack(currentPosition)}>
-                    &lt;&lt; Go Back to Start
-                </button>
+                <button onClick={backToStart}>&lt;&lt; Go Back to Start</button>
                 <button onClick={() => handleGoBack(1)}>
                     &lt; Back One Step
                 </button>
