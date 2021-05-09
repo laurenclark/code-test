@@ -39,6 +39,7 @@ function App2() {
                     ...prev.choices,
                     [e.target.name]: {
                         text: e.target.value,
+                        isSet: prev.choices[e.target.name].isSet,
                     },
                 },
             };
