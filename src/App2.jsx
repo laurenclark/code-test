@@ -64,14 +64,16 @@ function App2() {
 
     return (
         <>
-            <div>
-                <button onClick={() => handleGoBack(currentPosition)}>
-                    &lt;&lt; Go Back to Start
-                </button>
-                <button onClick={() => handleGoBack(1)}>
-                    &lt; Back One Step
-                </button>
-            </div>
+            {currentPosition > 0 && (
+                <div>
+                    <button onClick={() => handleGoBack(currentPosition)}>
+                        &lt;&lt; Go Back to Start
+                    </button>
+                    <button onClick={() => handleGoBack(1)}>
+                        &lt; Back One Step
+                    </button>
+                </div>
+            )}
 
             <GridContainer>
                 <div className="cell-0">{data.text}</div>
