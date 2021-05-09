@@ -100,16 +100,14 @@ function App() {
                         return (
                             <div
                                 key={choice}
-                                className={computeClass('cell', index)}
-                            >
+                                className={computeClass('cell', index)}>
                                 <a
                                     onClick={() =>
                                         handleTextClick(
                                             data.choices[choice].text,
                                         )
                                     }
-                                    href="#"
-                                >
+                                    href="#">
                                     {data.choices[choice].text}
                                 </a>
                             </div>
@@ -119,12 +117,10 @@ function App() {
                         <div
                             key={choice}
                             id={data.choices[index]}
-                            className={computeClass('cell', index)}
-                        >
+                            className={computeClass('cell', index)}>
                             <form
                                 name={choice}
-                                onSubmit={(e) => handleSubmit(e)}
-                            >
+                                onSubmit={(e) => handleSubmit(e)}>
                                 <input
                                     onChange={(e) => handleChange(e)}
                                     type="text"
