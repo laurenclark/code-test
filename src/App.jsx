@@ -89,14 +89,15 @@ function App() {
 
     function handleGoBack(steps) {
         const position = Number(currentPosition - steps);
-        setData(allRecords.find((record) => record.id === position));
+        // setData(allRecords.find((record) => record.id === position));
+        setData(allRecords[currentPosition - 1]);
         setCurrentPosition(currentPosition - steps);
     }
 
     return (
         <>
             <div hidden={currentPosition === 0}>
-                <button onClick={() => backToStart(currentPosition)}>
+                <button onClick={() => handleGoBack(currentPosition)}>
                     &lt;&lt; Go Back to Start
                 </button>
                 <button onClick={() => handleGoBack(1)}>
