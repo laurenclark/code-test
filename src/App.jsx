@@ -2,89 +2,88 @@ import React, { useState, useEffect } from 'react';
 import { GridContainer } from './AppStyles';
 
 function App() {
-    const arrayTemplate = ['', '', '', ''];
-    const [currentPosition, setCurrentPosition] = useState(0);
-    const [currentData, setCurrentData] = useState({});
-    const [newFields, setNewFields] = useState(arrayTemplate);
-    const [fields, setFields] = useState(arrayTemplate);
-    const [data, setData] = useState([
-        {
-            id: 0,
-            text: 'There once was a big bad wolf',
+    const choiceTemplate = {
+        choice1: {
+            text: '',
+            isSet: false,
         },
-    ]);
+        choice2: {
+            text: '',
+            isSet: false,
+        },
+        choice3: {
+            text: '',
+            isSet: false,
+        },
+        choice4: {
+            text: '',
+            isSet: false,
+        },
+    };
 
-    useEffect(() => {
-        setCurrentData(data[currentPosition]);
-        setNewFields(arrayTemplate);
-        removeDeadPath(currentPosition, data);
-    }, [currentPosition]);
-
-    useEffect(() => {
-        setCurrentData((prev) => {
-            return {
-                id: prev.id,
-                text: prev.text,
-                fields: newFields,
-            };
-        });
-    }, []);
-
-    function handleSubmit(e, index) {
-        e.preventDefault();
-        const value = fields[index];
-        setNewFields((prevItems) => [
-            ...prevItems.slice(0, index),
-            value,
-            ...prevItems.slice(index + 1),
-        ]);
-        setData((prevItems) => [
-            ...prevItems.slice(0, currentPosition),
-            {
-                id: currentPosition,
-                text: currentData.text,
-                fields: fields,
-            },
-            ...prevItems.slice(currentPosition + 1),
-        ]);
-    }
-
-    function handleTextClick(index) {
-        const newObj = {
-            id: currentPosition + 1,
-            text: fields[index],
-            fields: arrayTemplate,
-        };
-        setData(data.concat(newObj));
-        setCurrentPosition(currentPosition + 1);
-        setFields(arrayTemplate);
-    }
-
-    function handleGoBack(steps) {
-        setCurrentPosition(currentPosition - steps);
-    }
-
-    function handleChange(e, index) {
-        setFields((prevItems) => [
-            ...prevItems.slice(0, index),
-            e.target.value,
-            ...prevItems.slice(index + 1),
-        ]);
-    }
-
-    function removeDeadPath(currentPosition, data) {
-        if (data.length > currentPosition) {
-            const remainder = currentPosition % data.length;
-            setData((prev) => [...prev]);
-        }
-    }
+    const [currentPosition, setCurrentPosition] = useState(0);
+    const [allRecords, setAllRecords] = useState([]);
+    const [data, setData] = useState({
+        id: currentPosition,
+        text: 'There once was a big bad wolf',
+        choices: choiceTemplate,
+    });
 
     function computeClass(className, index) {
         return String(`${className}-${index + 1}`);
     }
 
+    function handleChange(e) {
+        setData((prev) => {
+            return {
+                id: prev.id,
+                text: prev.text,
+                choices: {
+                    ...prev.choices,
+                    [e.target.name]: {
+                        text: e.target.value,
+                        isSet: prev.choices[e.target.name].isSet,
+                    },
+                },
+            };
+        });
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        setData((prev) => {
+            return {
+                id: prev.id,
+                text: prev.text,
+                choices: {
+                    ...prev.choices,
+                    [e.target.name]: {
+                        text: prev.choices[e.target.name].text,
+                        isSet: true,
+                    },
+                },
+            };
+        });
+    }
+
+    function handleTextClick(text) {
+        setData({
+            id: Number(allRecords.length + 1),
+            text,
+            choices: choiceTemplate,
+        });
+        setAllRecords([...allRecords, data]);
+        setCurrentPosition(currentPosition + 1);
+    }
+
+    function handleGoBack(steps) {
+        const position = Number(currentPosition - steps);
+        setData(allRecords.find((record) => record.id === position));
+        setCurrentPosition(currentPosition - steps);
+    }
+
     return (
-        <div>
+        <>
             {currentPosition > 0 && (
                 <div>
                     <button onClick={() => handleGoBack(currentPosition)}>
@@ -97,36 +96,50 @@ function App() {
             )}
 
             <GridContainer>
-                <div className="cell-0">{currentData.text}</div>
-                {currentData.fields &&
-                    currentData.fields.map((field, index) => {
-                        if (field !== '') {
-                            return (
-                                <div className={computeClass('cell', index)}>
-                                    <a
-                                        onClick={() => handleTextClick(index)}
-                                        href="#"
-                                    >
-                                        {field}
-                                    </a>
-                                </div>
-                            );
-                        }
+                <div className="cell-0">{data.text}</div>
+                {Object.keys(data.choices).map((choice, index) => {
+                    if (data.choices[choice].isSet) {
                         return (
-                            <div className={computeClass('cell', index)}>
-                                <form onSubmit={(e) => handleSubmit(e, index)}>
-                                    <input
-                                        onChange={(e) => handleChange(e, index)}
-                                        type="text"
-                                        value={fields[index]}
-                                    />
-                                    <button>Submit</button>
-                                </form>
+                            <div
+                                key={choice}
+                                className={computeClass('cell', index)}
+                            >
+                                <a
+                                    onClick={() =>
+                                        handleTextClick(
+                                            data.choices[choice].text,
+                                        )
+                                    }
+                                    href="#"
+                                >
+                                    {data.choices[choice].text}
+                                </a>
                             </div>
                         );
-                    })}
+                    }
+                    return (
+                        <div
+                            key={choice}
+                            id={data.choices[index]}
+                            className={computeClass('cell', index)}
+                        >
+                            <form
+                                name={choice}
+                                onSubmit={(e) => handleSubmit(e)}
+                            >
+                                <input
+                                    onChange={(e) => handleChange(e)}
+                                    type="text"
+                                    value={data.choices[choice].text}
+                                    name={choice}
+                                />
+                                <button>Submit</button>
+                            </form>
+                        </div>
+                    );
+                })}
             </GridContainer>
-        </div>
+        </>
     );
 }
 
