@@ -80,7 +80,7 @@ function App() {
     function handleTextClick(entry) {
         setCurrentPosition(currentPosition + 1);
         setData({
-            id: Number(currentPosition),
+            id: Number(allRecords.length + 1),
             text: entry,
             choices: choiceTemplate,
         });
@@ -93,15 +93,12 @@ function App() {
         setCurrentPosition(currentPosition - steps);
     }
 
-    function backToStart() {
-        setData(allRecords.find((record) => record.id === 0));
-        setCurrentPosition(0);
-    }
-
     return (
         <>
             <div hidden={currentPosition === 0}>
-                <button onClick={backToStart}>&lt;&lt; Go Back to Start</button>
+                <button onClick={() => backToStart(currentPosition)}>
+                    &lt;&lt; Go Back to Start
+                </button>
                 <button onClick={() => handleGoBack(1)}>
                     &lt; Back One Step
                 </button>
