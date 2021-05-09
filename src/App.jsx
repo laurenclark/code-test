@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { GridContainer } from './AppStyles';
 
 function App() {
@@ -84,16 +84,14 @@ function App() {
 
     return (
         <>
-            {currentPosition > 0 && (
-                <div>
-                    <button onClick={() => handleGoBack(currentPosition)}>
-                        &lt;&lt; Go Back to Start
-                    </button>
-                    <button onClick={() => handleGoBack(1)}>
-                        &lt; Back One Step
-                    </button>
-                </div>
-            )}
+            <div hidden={currentPosition === 0}>
+                <button onClick={() => handleGoBack(currentPosition)}>
+                    &lt;&lt; Go Back to Start
+                </button>
+                <button onClick={() => handleGoBack(1)}>
+                    &lt; Back One Step
+                </button>
+            </div>
 
             <GridContainer>
                 <div className="cell-0">{data.text}</div>
