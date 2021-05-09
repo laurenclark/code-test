@@ -1,11 +1,17 @@
 # Multipath Story App
 
 💡 React Hooks (Functional vs OOP)
+
 💅 Styled Components
+
 💡 ES2015+ 
+
 💄 Prettier (For formatting)
+
 💬 Babel
+
 ❄️ Snowpack (makes local dev a bit quicker, but uses webpack for production)
+
 Netlify and Netlify _redirects
 
 ## Available Scripts
