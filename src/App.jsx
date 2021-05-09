@@ -28,7 +28,7 @@ function App() {
                 fields: newFields,
             };
         });
-    }, [newFields]);
+    }, []);
 
     function handleSubmit(e, index) {
         e.preventDefault();
@@ -75,7 +75,7 @@ function App() {
     function removeDeadPath(currentPosition, data) {
         if (data.length > currentPosition) {
             const remainder = currentPosition % data.length;
-            setData((prev) => prev.slice(-(remainder + 1)));
+            setData((prev) => [...prev]);
         }
     }
 
