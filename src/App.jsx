@@ -89,8 +89,7 @@ function App() {
 
     function handleGoBack(steps) {
         const position = Number(currentPosition - steps);
-        // setData(allRecords.find((record) => record.id === position));
-        setData(allRecords[currentPosition - 1]);
+        setData(allRecords[position]);
         setCurrentPosition(currentPosition - steps);
     }
 
