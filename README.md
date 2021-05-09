@@ -1,6 +1,6 @@
 # Multipath Story App
 
-💡 React Hooks (Functional vs OOP)
+🪝 React Hooks (Functional vs OOP)
 
 💅 Styled Components
 

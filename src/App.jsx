@@ -25,7 +25,7 @@ function App() {
     const [allRecords, setAllRecords] = useState([]);
     const [data, setData] = useState({
         id: currentPosition,
-        text: 'There once was a big bad wolf',
+        text: 'There once was a big bad wolf 🐺',
         choices: choiceTemplate,
     });
 
