@@ -75,7 +75,11 @@ function App2() {
             };
         });
         setAllRecords([...allRecords, data]);
-        setCurrentPosition(currentPosition + 1);
+        setCurrentPosition(data.id + 1);
+    }
+
+    function handleGoBack(steps) {
+        setData(allRecords[currentPosition - steps]);
     }
 
     return (
