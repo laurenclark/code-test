@@ -2,30 +2,33 @@ import React, { useState, useEffect } from 'react';
 import { GridContainer } from './AppStyles';
 
 function App2() {
+    const choiceTemplate = {
+        choice1: {
+            text: '',
+            isSet: false,
+        },
+        choice2: {
+            text: '',
+            isSet: false,
+        },
+        choice3: {
+            text: '',
+            isSet: false,
+        },
+        choice4: {
+            text: '',
+            isSet: false,
+        },
+    };
+
     const [currentPosition, setCurrentPosition] = useState(0);
     const [allRecords, setAllRecords] = useState([]);
     const [data, setData] = useState({
-        id: 1,
+        id: currentPosition,
         text: 'There once was a big bad wolf',
-        choices: {
-            choice1: {
-                text: '',
-                isSet: false,
-            },
-            choice2: {
-                text: '',
-                isSet: false,
-            },
-            choice3: {
-                text: '',
-                isSet: false,
-            },
-            choice4: {
-                text: '',
-                isSet: false,
-            },
-        },
+        choices: choiceTemplate,
     });
+
     function computeClass(className, index) {
         return String(`${className}-${index + 1}`);
     }
@@ -63,6 +66,18 @@ function App2() {
         });
     }
 
+    function handleTextClick(text) {
+        setData((prev) => {
+            return {
+                id: Number(prev.id + 1),
+                text,
+                choices: choiceTemplate,
+            };
+        });
+        setAllRecords([...allRecords, data]);
+        setCurrentPosition(currentPosition + 1);
+    }
+
     return (
         <>
             {currentPosition > 0 && (
@@ -86,9 +101,12 @@ function App2() {
                                 className={computeClass('cell', index)}
                             >
                                 <a
-                                    onClick={() => handleTextClick(index)}
+                                    onClick={() =>
+                                        handleTextClick(
+                                            data.choices[choice].text,
+                                        )
+                                    }
                                     href="#"
-                                    id={data.choices[index]}
                                 >
                                     {data.choices[choice].text}
                                 </a>
