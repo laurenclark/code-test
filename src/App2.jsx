@@ -17,6 +17,11 @@ function App2() {
     function computeClass(className, index) {
         return String(`${className}-${index + 1}`);
     }
+
+    // function handleChange(e, index) {
+    //     setData(data.choices[]);
+    // }
+
     return (
         <>
             <div>
@@ -33,7 +38,10 @@ function App2() {
                 {Object.keys(data.choices).map((choice, index) => {
                     if (data.choices[index]) {
                         return (
-                            <div className={computeClass('cell', index)}>
+                            <div
+                                key={choice}
+                                className={computeClass('cell', index)}
+                            >
                                 <a
                                     onClick={() => handleTextClick(index)}
                                     href="#"
@@ -44,12 +52,16 @@ function App2() {
                         );
                     }
                     return (
-                        <div className={computeClass('cell', index)}>
-                            <form onSubmit={(e) => handleSubmit(e, index)}>
+                        <div
+                            key={choice}
+                            className={computeClass('cell', index)}
+                        >
+                            <form onSubmit={(e) => handleSubmit(e)}>
                                 <input
-                                    onChange={(e) => handleChange(e, index)}
+                                    onChange={(e) => handleChange(e)}
                                     type="text"
-                                    value={data.choices[index]}
+                                    value={data.choices[choice]}
+                                    id={choice}
                                 />
                                 <button>Submit</button>
                             </form>
