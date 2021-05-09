@@ -67,19 +67,18 @@ function App2() {
     }
 
     function handleTextClick(text) {
-        setData((prev) => {
-            return {
-                id: Number(prev.id + 1),
-                text,
-                choices: choiceTemplate,
-            };
+        setData({
+            id: Number(allRecords.length + 1),
+            text,
+            choices: choiceTemplate,
         });
         setAllRecords([...allRecords, data]);
-        setCurrentPosition(data.id + 1);
+        setCurrentPosition(currentPosition + 1);
     }
 
     function handleGoBack(steps) {
-        setData(allRecords[currentPosition - steps]);
+        const position = Number(currentPosition - steps);
+        setData(allRecords.find((record) => record.id === position));
         setCurrentPosition(currentPosition - steps);
     }
 
