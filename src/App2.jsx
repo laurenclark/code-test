@@ -80,6 +80,7 @@ function App2() {
 
     function handleGoBack(steps) {
         setData(allRecords[currentPosition - steps]);
+        setCurrentPosition(currentPosition - steps);
     }
 
     return (
