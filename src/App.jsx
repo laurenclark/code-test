@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GridContainer } from './AppStyles';
+import Notepad from './Notepad';
 
 function App() {
     const choiceTemplate = {
@@ -147,6 +148,8 @@ function App() {
                     );
                 })}
             </GridContainer>
+
+            <Notepad allRecords={allRecords} />
         </>
     );
 }

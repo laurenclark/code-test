@@ -43,4 +43,25 @@ const GridContainer = styled.div`
     }
 `;
 
-export { GridContainer };
+const TextContainer = styled.div`
+    position: relative;
+    img {
+        max-width: 900px;
+        display: block;
+        margin: 2rem auto;
+    }
+    div {
+        position: absolute;
+        text-align: center;
+        top: 130px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        p {
+            line-height: 1;
+            font-size: 2rem;
+        }
+    }
+`;
+
+export { GridContainer, TextContainer };
