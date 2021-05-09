@@ -8,19 +8,59 @@ function App2() {
         id: 1,
         text: 'There once was a big bad wolf',
         choices: {
-            choice1: '',
-            choice2: '',
-            choice3: '',
-            choice4: '',
+            choice1: {
+                text: '',
+                isSet: false,
+            },
+            choice2: {
+                text: '',
+                isSet: false,
+            },
+            choice3: {
+                text: '',
+                isSet: false,
+            },
+            choice4: {
+                text: '',
+                isSet: false,
+            },
         },
     });
     function computeClass(className, index) {
         return String(`${className}-${index + 1}`);
     }
 
-    // function handleChange(e, index) {
-    //     setData(data.choices[]);
-    // }
+    function handleChange(e) {
+        setData((prev) => {
+            return {
+                id: prev.id,
+                text: prev.text,
+                choices: {
+                    ...prev.choices,
+                    [e.target.name]: {
+                        text: e.target.value,
+                    },
+                },
+            };
+        });
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        setData((prev) => {
+            return {
+                id: prev.id,
+                text: prev.text,
+                choices: {
+                    ...prev.choices,
+                    [e.target.name]: {
+                        text: prev.choices[e.target.name].text,
+                        isSet: true,
+                    },
+                },
+            };
+        });
+    }
 
     return (
         <>
@@ -36,7 +76,7 @@ function App2() {
             <GridContainer>
                 <div className="cell-0">{data.text}</div>
                 {Object.keys(data.choices).map((choice, index) => {
-                    if (data.choices[index]) {
+                    if (data.choices[choice].isSet) {
                         return (
                             <div
                                 key={choice}
@@ -45,8 +85,9 @@ function App2() {
                                 <a
                                     onClick={() => handleTextClick(index)}
                                     href="#"
+                                    id={data.choices[index]}
                                 >
-                                    {data.choices[index]}
+                                    {data.choices[choice].text}
                                 </a>
                             </div>
                         );
@@ -54,14 +95,18 @@ function App2() {
                     return (
                         <div
                             key={choice}
+                            id={data.choices[index]}
                             className={computeClass('cell', index)}
                         >
-                            <form onSubmit={(e) => handleSubmit(e)}>
+                            <form
+                                name={choice}
+                                onSubmit={(e) => handleSubmit(e)}
+                            >
                                 <input
                                     onChange={(e) => handleChange(e)}
                                     type="text"
-                                    value={data.choices[choice]}
-                                    id={choice}
+                                    value={data.choices[choice].text}
+                                    name={choice}
                                 />
                                 <button>Submit</button>
                             </form>
