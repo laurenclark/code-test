@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { GridContainer } from './AppStyles';
 
 function App() {
@@ -29,9 +29,9 @@ function App() {
         choices: choiceTemplate,
     });
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         removeDeadPath(currentPosition, allRecords);
-    }, [currentPosition]);
+    }, [allRecords]);
 
     function computeClass(className, index) {
         return String(`${className}-${index + 1}`);
@@ -39,8 +39,10 @@ function App() {
 
     function removeDeadPath(position, records) {
         if (records.length > position) {
-            const remainder = position % records.length;
-            setAllRecords((prev) => prev.slice(-remainder));
+            const remainder = position - records.length;
+            setAllRecords(
+                allRecords.sort((a, b) => b.id - a.id).splice(-remainder),
+            );
         }
     }
 
@@ -80,7 +82,7 @@ function App() {
     function handleTextClick(entry) {
         setCurrentPosition(currentPosition + 1);
         setData({
-            id: Number(allRecords.length + 1),
+            id: Number(currentPosition + 1),
             text: entry,
             choices: choiceTemplate,
         });
