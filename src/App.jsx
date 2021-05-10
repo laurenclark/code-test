@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GridContainer } from './AppStyles';
 import Notepad from './Notepad';
 
@@ -30,9 +30,9 @@ function App() {
         choices: choiceTemplate,
     });
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         removeDeadPath(currentPosition, allRecords);
-    }, [allRecords]);
+    }, [currentPosition]);
 
     function computeClass(className, index) {
         return String(`${className}-${index + 1}`);
@@ -148,7 +148,7 @@ function App() {
                 })}
             </GridContainer>
 
-            <Notepad allRecords={allRecords} />
+            <Notepad allRecords={allRecords} currentData={data} />
         </>
     );
 }
