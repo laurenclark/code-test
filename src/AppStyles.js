@@ -45,6 +45,11 @@ const GridContainer = styled.div`
 
 const TextContainer = styled.div`
     position: relative;
+    h2 {
+        display: block;
+        width: 400px;
+        margin: 0 auto;
+    }
     img {
         max-width: 900px;
         display: block;
@@ -53,13 +58,13 @@ const TextContainer = styled.div`
     div {
         position: absolute;
         text-align: center;
-        top: 130px;
+        top: 95px;
         left: 0;
         right: 0;
         margin: 0 auto;
         p {
-            line-height: 1;
-            font-size: 2rem;
+            line-height: 1.7;
+            font-size: 1.5rem;
         }
     }
 `;

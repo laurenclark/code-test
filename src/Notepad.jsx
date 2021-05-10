@@ -7,6 +7,7 @@ function Notepad({ allRecords }) {
             <TextContainer>
                 <img src="./assets/notepad.svg" />
                 <div>
+                    <h2 contentEditable>My Story</h2>
                     {allRecords.map(({ text }) => {
                         return <p>{text}</p>;
                     })}
