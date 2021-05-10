@@ -14,6 +14,10 @@
 
 Deployed on Netlify (https://multi-path-story-example.netlify.app/)
 
+## To Install
+
+Run `npm install` to install all dependencies before choosing a script to run.
+
 ## Available Scripts
 
 ### npm start
