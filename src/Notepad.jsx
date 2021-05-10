@@ -11,7 +11,7 @@ function Notepad({ allRecords, currentData }) {
                     {allRecords.map(({ text }) => {
                         return <p>{text}</p>;
                     })}
-                    <p>{currentData.id !== 0 && currentData.text}</p>
+                    <p>{currentData.text}</p>
                 </div>
             </TextContainer>
         </div>
