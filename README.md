@@ -12,7 +12,7 @@
 
 ❄️ Snowpack (makes local dev a bit quicker, but uses webpack for production)
 
-Netlify and Netlify _redirects
+Deployed on Netlify (https://multi-path-story-example.netlify.app/)
 
 ## Available Scripts
 
