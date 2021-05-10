@@ -48,7 +48,7 @@ const TextContainer = styled.div`
     h2 {
         display: block;
         width: 400px;
-        margin: 0 auto;
+        margin: 0 auto 33px auto;
     }
     img {
         max-width: 900px;
@@ -63,8 +63,9 @@ const TextContainer = styled.div`
         right: 0;
         margin: 0 auto;
         p {
-            line-height: 1.7;
+            line-height: 2.4;
             font-size: 1.5rem;
+            margin: 2px;
         }
     }
 `;

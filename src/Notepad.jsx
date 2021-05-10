@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextContainer } from './AppStyles';
 
-function Notepad({ allRecords }) {
+function Notepad({ allRecords, currentData }) {
     return (
         <div>
             <TextContainer>
@@ -11,6 +11,7 @@ function Notepad({ allRecords }) {
                     {allRecords.map(({ text }) => {
                         return <p>{text}</p>;
                     })}
+                    <p>{currentData.id !== 0 && currentData.text}</p>
                 </div>
             </TextContainer>
         </div>
